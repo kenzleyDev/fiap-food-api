@@ -1,27 +1,23 @@
 package com.fiap.food.application.core.domain;
 
+import lombok.Data;
+
 public class Customer {
 
-    private Long id;
-    private String name;
-
-    private Address address;
-
-    private String cpf;
-
-    private Boolean isValidCpf;
-
     public Customer() {
-        this.isValidCpf = false;
+        this.validCpf = false;
     }
 
-    public Customer(Long id, String name, Address address, String cpf, Boolean isValidCpf) {
+    public Customer(Long id, String name, String cpf, Boolean validCpf) {
         this.id = id;
         this.name = name;
-        this.address = address;
         this.cpf = cpf;
-        this.isValidCpf = isValidCpf;
+        this.validCpf = validCpf;
     }
+    private Long id;
+    private String name;
+    private String cpf;
+    private Boolean validCpf;
 
     public Long getId() {
         return id;
@@ -39,14 +35,6 @@ public class Customer {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -56,10 +44,10 @@ public class Customer {
     }
 
     public Boolean getValidCpf() {
-        return isValidCpf;
+        return validCpf;
     }
 
     public void setValidCpf(Boolean validCpf) {
-        isValidCpf = validCpf;
+        this.validCpf = validCpf;
     }
 }

@@ -1,24 +1,19 @@
 package com.fiap.food.application.core.usecase;
 
 import com.fiap.food.application.core.domain.Customer;
-import com.fiap.food.application.ports.out.FindAddressByZipCodeOutputPort;
+import com.fiap.food.application.ports.in.InsertCustomerInputPort;
 import com.fiap.food.application.ports.out.InsertCustomerOutputPort;
+import org.springframework.stereotype.Component;
 
-public class InsertCustomerUseCase {
-
-    private final FindAddressByZipCodeOutputPort findAddressByZipCodeOutputPort;
+public class InsertCustomerUseCase implements InsertCustomerInputPort {
     private final InsertCustomerOutputPort insertCustomerOutputPort;
-
     public InsertCustomerUseCase(
-            FindAddressByZipCodeOutputPort findAddressByZipCodeOutputPort,
             InsertCustomerOutputPort insertCustomerOutputPort) {
-        this.findAddressByZipCodeOutputPort = findAddressByZipCodeOutputPort;
         this.insertCustomerOutputPort = insertCustomerOutputPort;
     }
 
-    public void insert(Customer customer, String zipCode) {
-        var address = findAddressByZipCodeOutputPort.find(zipCode);
-        customer.setAddress(address);
+    @Override
+    public void insert(Customer customer) {
         insertCustomerOutputPort.insert(customer);
     }
 }
