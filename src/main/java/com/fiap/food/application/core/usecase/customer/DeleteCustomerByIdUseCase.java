@@ -1,9 +1,8 @@
-package com.fiap.food.application.core.usecase;
+package com.fiap.food.application.core.usecase.customer;
 
-import com.fiap.food.application.ports.in.DeleteCustomerByIdInputPort;
-import com.fiap.food.application.ports.in.FindCustomerByIdInputPort;
-import com.fiap.food.application.ports.out.DeleteCustomerByIdOutputPort;
-import org.springframework.stereotype.Component;
+import com.fiap.food.application.ports.in.customer.DeleteCustomerByIdInputPort;
+import com.fiap.food.application.ports.in.customer.FindCustomerByIdInputPort;
+import com.fiap.food.application.ports.out.customer.DeleteCustomerByIdOutputPort;
 
 public class DeleteCustomerByIdUseCase implements DeleteCustomerByIdInputPort {
 

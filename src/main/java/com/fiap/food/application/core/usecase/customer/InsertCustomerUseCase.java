@@ -1,9 +1,8 @@
-package com.fiap.food.application.core.usecase;
+package com.fiap.food.application.core.usecase.customer;
 
 import com.fiap.food.application.core.domain.Customer;
-import com.fiap.food.application.ports.in.InsertCustomerInputPort;
-import com.fiap.food.application.ports.out.InsertCustomerOutputPort;
-import org.springframework.stereotype.Component;
+import com.fiap.food.application.ports.in.customer.InsertCustomerInputPort;
+import com.fiap.food.application.ports.out.customer.InsertCustomerOutputPort;
 
 public class InsertCustomerUseCase implements InsertCustomerInputPort {
     private final InsertCustomerOutputPort insertCustomerOutputPort;

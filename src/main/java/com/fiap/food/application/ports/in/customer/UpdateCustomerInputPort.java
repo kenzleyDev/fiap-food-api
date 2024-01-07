@@ -1,4 +1,4 @@
-package com.fiap.food.application.ports.in;
+package com.fiap.food.application.ports.in.customer;
 
 import com.fiap.food.application.core.domain.Customer;
 

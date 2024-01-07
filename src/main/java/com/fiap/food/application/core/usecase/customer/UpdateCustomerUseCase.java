@@ -1,9 +1,9 @@
-package com.fiap.food.application.core.usecase;
+package com.fiap.food.application.core.usecase.customer;
 
 import com.fiap.food.application.core.domain.Customer;
-import com.fiap.food.application.ports.in.FindCustomerByIdInputPort;
-import com.fiap.food.application.ports.in.UpdateCustomerInputPort;
-import com.fiap.food.application.ports.out.UpdateCustomerOutputPort;
+import com.fiap.food.application.ports.in.customer.FindCustomerByIdInputPort;
+import com.fiap.food.application.ports.in.customer.UpdateCustomerInputPort;
+import com.fiap.food.application.ports.out.customer.UpdateCustomerOutputPort;
 
 public class UpdateCustomerUseCase implements UpdateCustomerInputPort {
 

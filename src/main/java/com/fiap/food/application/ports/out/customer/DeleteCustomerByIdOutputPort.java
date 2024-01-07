@@ -1,4 +1,4 @@
-package com.fiap.food.application.ports.out;
+package com.fiap.food.application.ports.out.customer;
 
 public interface DeleteCustomerByIdOutputPort {
 

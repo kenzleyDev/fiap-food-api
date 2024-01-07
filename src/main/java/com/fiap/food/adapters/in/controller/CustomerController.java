@@ -4,7 +4,7 @@ import com.fiap.food.adapters.in.controller.mapper.CustomerMapper;
 import com.fiap.food.adapters.in.controller.request.CustomerRequest;
 import com.fiap.food.adapters.in.controller.response.CustomerResponse;
 import com.fiap.food.application.core.domain.Customer;
-import com.fiap.food.application.ports.in.*;
+import com.fiap.food.application.ports.in.customer.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
