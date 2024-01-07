@@ -7,6 +7,7 @@ import com.fiap.food.application.core.domain.Customer;
 import com.fiap.food.application.ports.in.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,13 +39,14 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> insert(@Valid @RequestBody CustomerRequest customerRequest) {
         var customer = customerMapper.toCustomer(customerRequest);
         insertCustomerInputPort.insert(customer);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/customer/{cpf}")
+    @GetMapping("/identify/{cpf}")
     public ResponseEntity<CustomerResponse> findByCpf(@PathVariable final String cpf){
         var customer = findCustomerByCpfInputPort.find(cpf);
         var customerResponse = customerMapper.toCustomerResponse(customer);
