@@ -4,9 +4,7 @@ import com.fiap.food.adapters.in.controller.mapper.ProductMapper;
 import com.fiap.food.adapters.in.controller.request.ProductRequest;
 import com.fiap.food.adapters.in.controller.response.ProductResponse;
 import com.fiap.food.application.core.domain.Product;
-import com.fiap.food.application.ports.in.product.FindProductByCategoryNameInputPort;
-import com.fiap.food.application.ports.in.product.FindProductByIdInputPort;
-import com.fiap.food.application.ports.in.product.InsertProductInputPort;
+import com.fiap.food.application.ports.in.product.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +25,12 @@ public class ProductController {
 
     @Autowired
     private FindProductByCategoryNameInputPort findProductByCategoryNameInputPort;
+
+    @Autowired
+    private UpdateProductInputPort updateProductInputPort;
+
+    @Autowired
+    private DeleteProductByIdInputPort deleteProductByIdInputPort;
 
     @Autowired
     private ProductMapper productMapper;
@@ -54,5 +58,19 @@ public class ProductController {
                 .map(productMapper::toProductResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(productResponses);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable final Long id, @Valid @RequestBody ProductRequest productRequest){
+        Product product = productMapper.toProduct(productRequest);
+        product.setId(id);
+        updateProductInputPort.update(product, productRequest.getNameCategory());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable final Long id) {
+        deleteProductByIdInputPort.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

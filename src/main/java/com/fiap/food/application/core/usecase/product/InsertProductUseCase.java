@@ -2,7 +2,7 @@ package com.fiap.food.application.core.usecase.product;
 
 import com.fiap.food.application.core.domain.Product;
 import com.fiap.food.application.ports.in.product.InsertProductInputPort;
-import com.fiap.food.application.ports.out.product.FindCategoryByNameOutputPort;
+import com.fiap.food.application.ports.out.category.FindCategoryByNameOutputPort;
 import com.fiap.food.application.ports.out.product.InsertProductOutputPort;
 
 public class InsertProductUseCase implements InsertProductInputPort {

@@ -9,7 +9,7 @@ public class ProductRequest {
 
     @NotBlank
     private String name;
-    @NotBlank
+    @Positive(message = "O preco deve ser maior que zero")
     private Double price;
     @NotBlank
     private String nameCategory;

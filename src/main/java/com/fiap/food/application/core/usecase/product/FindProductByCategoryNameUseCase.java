@@ -1,11 +1,12 @@
 package com.fiap.food.application.core.usecase.product;
 
 import com.fiap.food.application.core.domain.Product;
+import com.fiap.food.application.ports.in.product.FindProductByCategoryNameInputPort;
 import com.fiap.food.application.ports.out.product.FindProductByCategoryNameOutputPort;
 
 import java.util.List;
 
-public class FindProductByCategoryNameUseCase {
+public class FindProductByCategoryNameUseCase implements FindProductByCategoryNameInputPort {
 
     private final FindProductByCategoryNameOutputPort findProductByCategoryNameOutputPort;
 
@@ -13,6 +14,7 @@ public class FindProductByCategoryNameUseCase {
         this.findProductByCategoryNameOutputPort = findProductByCategoryNameOutputPort;
     }
 
+    @Override
     public List<Product> find(String categoryName) {
         List<Product> products = findProductByCategoryNameOutputPort.find(categoryName);
         if (products.isEmpty()) {
