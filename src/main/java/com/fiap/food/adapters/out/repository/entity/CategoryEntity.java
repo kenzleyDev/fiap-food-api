@@ -5,13 +5,11 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "customer")
-public class CustomerEntity {
+@Table(name = "category")
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String cpf;
-    private Boolean isValidCpf;
 }

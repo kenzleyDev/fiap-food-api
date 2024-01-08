@@ -5,13 +5,17 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "customer")
-public class CustomerEntity {
+@Table(name = "product")
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String cpf;
-    private Boolean isValidCpf;
+    private Double price;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+    private String information;
+    private int quantity;
 }
