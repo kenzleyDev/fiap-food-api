@@ -8,15 +8,20 @@ public class Customer {
         this.validCpf = false;
     }
 
-    public Customer(Long id, String name, String cpf, Boolean validCpf) {
+    public Customer(Long id, String name, String cpf, String email, String password, Boolean validCpf) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
+        this.email = email;
+        this.password = password;
         this.validCpf = validCpf;
     }
+
     private Long id;
     private String name;
     private String cpf;
+    private String email;
+    private String password;
     private Boolean validCpf;
 
     public Long getId() {
@@ -41,6 +46,22 @@ public class Customer {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Boolean getValidCpf() {

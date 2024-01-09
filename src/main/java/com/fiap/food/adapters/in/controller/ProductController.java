@@ -42,23 +42,23 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
-        var product = findProductByIdInputPort.find(id);
-        var productResponse = productMapper.toProductResponse(product);
+        @GetMapping("/{id}")
+        public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+            var product = findProductByIdInputPort.find(id);
+            var productResponse = productMapper.toProductResponse(product);
 
-        return ResponseEntity.ok().body(productResponse);
-    }
+            return ResponseEntity.ok().body(productResponse);
+        }
 
-    @GetMapping("/{categoryName}")
-    public ResponseEntity<List<ProductResponse>> findByCategoryName(@PathVariable String categoryName) {
-        List<Product> products = findProductByCategoryNameInputPort.find(categoryName);
+        @GetMapping("/category/{categoryName}")
+        public ResponseEntity<List<ProductResponse>> findByCategoryName(@PathVariable String categoryName) {
+            List<Product> products = findProductByCategoryNameInputPort.find(categoryName);
 
-        List<ProductResponse> productResponses = products.stream()
-                .map(productMapper::toProductResponse)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(productResponses);
-    }
+            List<ProductResponse> productResponses = products.stream()
+                    .map(productMapper::toProductResponse)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(productResponses);
+        }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @Valid @RequestBody ProductRequest productRequest){
