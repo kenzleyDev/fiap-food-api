@@ -5,13 +5,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, Double price, Category category, String information, int quantity) {
+    public Product(Long id, String name, Double price, Category category, String information, int quantity, Order order) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.information = information;
         this.quantity = quantity;
+        this.order = order;
     }
 
     private Long id;
@@ -20,6 +21,8 @@ public class Product {
     private Category category;
     private String information;
     private int quantity;
+
+    private Order order;
 
     public Long getId() {
         return id;
@@ -67,5 +70,13 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

@@ -2,22 +2,31 @@ package com.fiap.food.application.core.domain;
 
 import lombok.Data;
 
+import java.util.List;
+
 public class Customer {
 
     public Customer() {
         this.validCpf = false;
     }
 
-    public Customer(Long id, String name, String cpf, Boolean validCpf) {
+    public Customer(Long id, String name, String cpf, String email, String password, Boolean validCpf, List<Order> orders) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
+        this.email = email;
+        this.password = password;
         this.validCpf = validCpf;
+        this.orders = orders;
     }
+
     private Long id;
     private String name;
     private String cpf;
+    private String email;
+    private String password;
     private Boolean validCpf;
+    private List<Order> orders;
 
     public Long getId() {
         return id;
@@ -43,11 +52,35 @@ public class Customer {
         this.cpf = cpf;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getValidCpf() {
         return validCpf;
     }
 
     public void setValidCpf(Boolean validCpf) {
         this.validCpf = validCpf;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

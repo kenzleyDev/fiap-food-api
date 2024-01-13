@@ -1,5 +1,6 @@
 package com.fiap.food.adapters.in.controller.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -10,4 +11,9 @@ public class CustomerRequest {
     private String name;
     @NotBlank
     private String cpf;
+    @NotBlank
+    @Email
+    private String email;
+    @NotBlank
+    private String password;
 }
