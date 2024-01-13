@@ -27,6 +27,9 @@ public class ProductController {
     private FindProductByCategoryNameInputPort findProductByCategoryNameInputPort;
 
     @Autowired
+    private FindProductByNameInputPort findProductByNameInputPort;
+
+    @Autowired
     private UpdateProductInputPort updateProductInputPort;
 
     @Autowired
@@ -58,6 +61,13 @@ public class ProductController {
                     .map(productMapper::toProductResponse)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(productResponses);
+        }
+
+        @GetMapping("{productName}")
+        public ResponseEntity<ProductResponse> findByProductName(@PathVariable String productName) {
+            var product = findProductByNameInputPort.find(productName);
+            var productResponse = productMapper.toProductResponse(product);
+            return ResponseEntity.ok().body(productResponse);
         }
 
     @PutMapping("/{id}")
