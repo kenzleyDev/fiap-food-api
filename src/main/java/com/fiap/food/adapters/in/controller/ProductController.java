@@ -63,7 +63,7 @@ public class ProductController {
             return ResponseEntity.ok(productResponses);
         }
 
-        @GetMapping("{productName}")
+        @GetMapping("/product/{productName}")
         public ResponseEntity<ProductResponse> findByProductName(@PathVariable String productName) {
             var product = findProductByNameInputPort.find(productName);
             var productResponse = productMapper.toProductResponse(product);

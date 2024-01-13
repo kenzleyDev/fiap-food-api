@@ -33,11 +33,6 @@ public class CustomerController {
     @Autowired
     private CustomerMapper customerMapper;
 
-
-    @PostMapping("/teste")
-    public ResponseEntity<Void> teste(@RequestBody CustomerRequest customerRequest) {
-        return ResponseEntity.ok().build();
-    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> insert(@Valid @RequestBody CustomerRequest customerRequest) {

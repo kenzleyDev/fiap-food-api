@@ -31,7 +31,6 @@ public class OrderController {
         insertOrderInputPort.insert(orderRequest.getCpfCustomer(), orderRequest.getProductsName());
         return ResponseEntity.ok().build();
     }
-
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAll() {
         List<Order> orders = findAllOrdersOutputPort.findAll();

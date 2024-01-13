@@ -7,13 +7,14 @@ import java.util.List;
 
 public class Order {
 
-    public Order(Long id, Customer customer, List<Product> products, LocalDateTime dateTimeOrder, Double amount, OrderStatus status) {
+    public Order(Long id, Customer customer, List<Product> products, LocalDateTime dateTimeOrder, Double amount, OrderStatus status, String confirmationCode) {
         this.id = id;
         this.customer = customer;
         this.products = products;
         this.dateTimeOrder = dateTimeOrder;
         this.amount = amount;
         this.status = status;
+        this.confirmationCode = confirmationCode;
     }
 
     public Order() {
@@ -24,6 +25,8 @@ public class Order {
     private LocalDateTime dateTimeOrder;
     private Double amount;
     private OrderStatus status;
+
+    private String confirmationCode;
 
     public Long getId() {
         return id;
@@ -71,5 +74,13 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public String getConfirmationCode() {
+        return confirmationCode;
+    }
+
+    public void setConfirmationCode(String confirmationCode) {
+        this.confirmationCode = confirmationCode;
     }
 }

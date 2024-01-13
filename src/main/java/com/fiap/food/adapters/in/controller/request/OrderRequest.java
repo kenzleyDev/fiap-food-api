@@ -1,7 +1,7 @@
 package com.fiap.food.adapters.in.controller.request;
 
-import com.fiap.food.application.core.domain.Product;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +10,8 @@ import java.util.List;
 public class OrderRequest {
 
     private String cpfCustomer;
-    @NotBlank
+    @NotEmpty
+    @NotNull
     private List<String> productsName;
 
 }
