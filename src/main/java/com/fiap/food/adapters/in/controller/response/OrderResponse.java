@@ -14,4 +14,5 @@ public class OrderResponse {
     private LocalDateTime dateTimeOrder;
     private Double amount;
     private OrderStatus status;
+    private String confirmationCode;
 }

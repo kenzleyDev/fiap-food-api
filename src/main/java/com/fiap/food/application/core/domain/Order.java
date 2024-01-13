@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Order {
 
+
     public Order(Long id, Customer customer, List<Product> products, LocalDateTime dateTimeOrder, Double amount, OrderStatus status, String confirmationCode) {
         this.id = id;
         this.customer = customer;
@@ -25,7 +26,6 @@ public class Order {
     private LocalDateTime dateTimeOrder;
     private Double amount;
     private OrderStatus status;
-
     private String confirmationCode;
 
     public Long getId() {
