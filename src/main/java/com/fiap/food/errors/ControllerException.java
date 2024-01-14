@@ -2,7 +2,9 @@ package com.fiap.food.errors;
 
 import com.fiap.food.errors.exception.NotFoundException;
 import com.fiap.food.errors.response.ValidationFieldErrorResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +38,12 @@ public class ControllerException {
     @ExceptionHandler(NotFoundException.class)
     public String notFound(NotFoundException exception) {
         return exception.getMessage();
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String errorMessage = "Erro ao excluir devido a uma restrição de chave estrangeira";
+        return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
 
 }
