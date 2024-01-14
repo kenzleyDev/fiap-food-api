@@ -8,6 +8,8 @@ import com.fiap.food.application.ports.out.category.FindCategoryByNameOutputPort
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class FindCategoryByNameAdapter implements FindCategoryByNameOutputPort {
 
@@ -17,9 +19,8 @@ public class FindCategoryByNameAdapter implements FindCategoryByNameOutputPort {
     @Autowired
     private CategoryEntityMapper categoryEntityMapper;
     @Override
-    public Category find(String categoryName) {
-        CategoryEntity category = categoryRepository.findByName(categoryName)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
-        return categoryEntityMapper.toCategory(category);
+    public Optional<Category> find(String categoryName) {
+        var category = categoryRepository.findByName(categoryName);
+        return category.map(entity -> categoryEntityMapper.toCategory(entity));
     }
 }

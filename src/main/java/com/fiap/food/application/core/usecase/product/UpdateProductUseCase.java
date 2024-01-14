@@ -5,6 +5,7 @@ import com.fiap.food.application.ports.in.category.FindCategoryByNameInputPort;
 import com.fiap.food.application.ports.in.product.FindProductByIdInputPort;
 import com.fiap.food.application.ports.in.product.UpdateProductInputPort;
 import com.fiap.food.application.ports.out.product.UpdateProductOutputPort;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class UpdateProductUseCase implements UpdateProductInputPort {
 
@@ -22,7 +23,7 @@ public class UpdateProductUseCase implements UpdateProductInputPort {
     }
 
     @Override
-    public void update(Product product, String categoryName) {
+    public void update(Product product, String categoryName) throws NotFoundException {
         findProductByIdInputPort.find(product.getId());
         var category = findCategoryByNameInputPort.find(categoryName);
         product.setCategory(category);

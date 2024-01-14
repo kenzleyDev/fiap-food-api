@@ -3,6 +3,7 @@ package com.fiap.food.application.core.usecase.category;
 import com.fiap.food.application.ports.in.category.DeleteCategoryByIdInputPort;
 import com.fiap.food.application.ports.in.category.FindCategoryByIdInputPort;
 import com.fiap.food.application.ports.out.category.DeleteCategoryByIdOutputPort;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class DeleteCategoryByIdUseCase implements DeleteCategoryByIdInputPort {
 
@@ -17,7 +18,7 @@ public class DeleteCategoryByIdUseCase implements DeleteCategoryByIdInputPort {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws NotFoundException {
         findCategoryByIdInputPort.find(id);
         deleteCategoryByIdOutputPort.delete(id);
     }

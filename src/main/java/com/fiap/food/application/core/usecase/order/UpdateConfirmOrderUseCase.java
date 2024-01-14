@@ -5,6 +5,7 @@ import com.fiap.food.application.ports.in.order.FindOrderByConfirmationCodeInput
 import com.fiap.food.application.ports.in.order.UpdateConfirmOrderInputPort;
 import com.fiap.food.application.ports.out.order.UpdateConfirmOrderOutputPort;
 import com.fiap.food.enums.OrderStatus;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class UpdateConfirmOrderUseCase implements UpdateConfirmOrderInputPort {
 
@@ -21,7 +22,7 @@ public class UpdateConfirmOrderUseCase implements UpdateConfirmOrderInputPort {
     }
 
     @Override
-    public void update(Order order) {
+    public void update(Order order) throws NotFoundException {
         findOrderByConfirmationCodeInputPort.find(order.getConfirmationCode());
         order.setStatus(OrderStatus.CONFIRMED);
         updateConfirmOrderOutputPort.update(order);

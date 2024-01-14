@@ -2,7 +2,8 @@ package com.fiap.food.application.ports.out.category;
 
 import com.fiap.food.application.core.domain.Category;
 
-public interface FindCategoryByNameOutputPort {
+import java.util.Optional;
 
-    Category find(String categoryName);
+public interface FindCategoryByNameOutputPort {
+    Optional<Category> find(String categoryName);
 }

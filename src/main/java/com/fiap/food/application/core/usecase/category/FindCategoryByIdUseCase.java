@@ -3,6 +3,7 @@ package com.fiap.food.application.core.usecase.category;
 import com.fiap.food.application.core.domain.Category;
 import com.fiap.food.application.ports.in.category.FindCategoryByIdInputPort;
 import com.fiap.food.application.ports.out.category.FindCategoryByIdOutputPort;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class FindCategoryByIdUseCase implements FindCategoryByIdInputPort {
 
@@ -13,7 +14,7 @@ public class FindCategoryByIdUseCase implements FindCategoryByIdInputPort {
     }
 
     @Override
-    public Category find(Long id) {
-        return findCategoryByIdOutputPort.find(id).orElseThrow(() -> new RuntimeException("Category not Found"));
+    public Category find(Long id) throws NotFoundException {
+        return findCategoryByIdOutputPort.find(id).orElseThrow(() -> new NotFoundException("Category not Found"));
     }
 }
