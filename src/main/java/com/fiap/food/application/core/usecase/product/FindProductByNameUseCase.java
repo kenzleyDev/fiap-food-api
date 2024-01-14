@@ -3,6 +3,7 @@ package com.fiap.food.application.core.usecase.product;
 import com.fiap.food.application.core.domain.Product;
 import com.fiap.food.application.ports.in.product.FindProductByNameInputPort;
 import com.fiap.food.application.ports.out.product.FindProductByNameOutputPort;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class FindProductByNameUseCase implements FindProductByNameInputPort {
 
@@ -13,8 +14,8 @@ public class FindProductByNameUseCase implements FindProductByNameInputPort {
     }
 
     @Override
-    public Product find(String productName) {
+    public Product find(String productName) throws NotFoundException {
         return findProductByNameOutputPort.find(productName)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found"));
     }
 }

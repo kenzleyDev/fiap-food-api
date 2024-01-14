@@ -20,7 +20,7 @@ public class InsertProductUseCase implements InsertProductInputPort {
     @Override
     public void insert(Product product, String categoryName) {
         var category = findCategoryByNameOutputPort.find(categoryName);
-        product.setCategory(category);
+        product.setCategory(category.get());
         insertProductOutputPort.insert(product);
     }
 }

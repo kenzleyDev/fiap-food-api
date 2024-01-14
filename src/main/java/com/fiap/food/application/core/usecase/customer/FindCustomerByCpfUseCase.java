@@ -3,6 +3,7 @@ package com.fiap.food.application.core.usecase.customer;
 import com.fiap.food.application.core.domain.Customer;
 import com.fiap.food.application.ports.in.customer.FindCustomerByCpfInputPort;
 import com.fiap.food.application.ports.out.customer.FindCustomerByCpfOutputPort;
+import com.fiap.food.errors.exception.NotFoundException;
 
 public class FindCustomerByCpfUseCase implements FindCustomerByCpfInputPort {
 
@@ -13,8 +14,8 @@ public class FindCustomerByCpfUseCase implements FindCustomerByCpfInputPort {
     }
 
     @Override
-    public Customer find(String cpf) {
+    public Customer find(String cpf) throws NotFoundException {
         return findCustomerByCpfOutputPort.find(cpf)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 }
