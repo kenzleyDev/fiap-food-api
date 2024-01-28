@@ -66,9 +66,9 @@ Ex:
 ### Buscar um Cliente pelo CPF:
 Para buscar um cliente pelo CPF, envie uma requisição GET para:
 
-
+```
 localhost:8080/api/v1/customers?cpf={cpf}
-
+```
 
 ## Consumindo API de Produtos(Products)
 
@@ -117,7 +117,7 @@ Ex:
 ### Deletar um Produto:
 Para deletar um produto, envie uma requisição DELETE para:
 
-```json
+```
 localhost:8080/api/v1/products/{id}
 ```
 
@@ -133,7 +133,9 @@ localhost:8080/api/v1/products?category={nomeCategoria}
 ### Cadastrar uma Categoria:
 Para cadastrar uma categoria, envie uma requisição POST para:
 
+```
 localhost:8080/api/v1/category
+```
 
 Exemplo de corpo da requisição:
 ```json
