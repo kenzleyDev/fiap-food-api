@@ -54,8 +54,8 @@ Para cadastrar um cliente, envie uma requisição POST para:
 ```
 localhost:8080/api/v1/customers
 ```
-```json
 Ex:
+```json
 {
     "name": "Cliente teste",
     "cpf": "22222222222222222",
@@ -117,8 +117,9 @@ Ex:
 ### Deletar um Produto:
 Para deletar um produto, envie uma requisição DELETE para:
 
-
+```json
 localhost:8080/api/v1/products/{id}
+```
 
 ### Buscar um Produto por Categoria:
 Para buscar produtos por categoria, envie uma requisição GET para:
