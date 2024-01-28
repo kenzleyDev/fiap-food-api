@@ -11,10 +11,7 @@ import com.fiap.food.application.ports.out.product.FindProductByNameOutputPort;
 import com.fiap.food.enums.OrderStatus;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class InsertOrderUseCase implements InsertOrderInputPort {
 
@@ -40,7 +37,7 @@ public class InsertOrderUseCase implements InsertOrderInputPort {
         order.setConfirmationCode(UUID.randomUUID().toString());
 
         // Customer
-        if (!cpfCustomer.isEmpty() && !cpfCustomer.isBlank()) {
+        if (!Objects.isNull(cpfCustomer) && !cpfCustomer.isBlank()) {
             Optional<Customer> customer = findCustomerByCpfOutputPort.find(cpfCustomer);
             customer.ifPresent(order::setCustomer);
         }

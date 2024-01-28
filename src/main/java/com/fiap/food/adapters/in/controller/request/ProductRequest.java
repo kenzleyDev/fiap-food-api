@@ -15,6 +15,4 @@ public class ProductRequest {
     private String nameCategory;
     @NotBlank
     private String information;
-    @Positive(message = "A quantidade deve ser maior que zero")
-    private int quantity;
 }

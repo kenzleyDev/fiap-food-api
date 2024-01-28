@@ -5,13 +5,12 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, Double price, Category category, String information, int quantity, Order order) {
+    public Product(Long id, String name, Double price, Category category, String information, Order order) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.information = information;
-        this.quantity = quantity;
         this.order = order;
     }
 
@@ -20,7 +19,6 @@ public class Product {
     private Double price;
     private Category category;
     private String information;
-    private int quantity;
 
     private Order order;
 
@@ -62,14 +60,6 @@ public class Product {
 
     public void setInformation(String information) {
         this.information = information;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Order getOrder() {
