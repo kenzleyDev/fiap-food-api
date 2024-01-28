@@ -67,7 +67,7 @@ Ex:
 Para buscar um cliente pelo CPF, envie uma requisição GET para:
 
 ```
-localhost:8080/api/v1/customers?cpf={cpf}
+localhost:8080/api/v1/customers/identify/{cpf}
 ```
 
 ## Consumindo API de Produtos(Products)
@@ -125,7 +125,7 @@ localhost:8080/api/v1/products/{id}
 Para buscar produtos por categoria, envie uma requisição GET para:
 
 ```
-localhost:8080/api/v1/products?category={nomeCategoria}
+localhost:8080/api/v1/products/category/{categoryName}
 ```
 
 ##Consumindo API de Categorias (Category)
