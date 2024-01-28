@@ -22,6 +22,4 @@ public class ProductEntity {
 
     private String information;
 
-    private int quantity;
-
 }

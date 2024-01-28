@@ -9,5 +9,4 @@ public class ProductResponse {
     private Double price;
     private CategoryResponse category;
     private String information;
-    private int quantity;
 }
