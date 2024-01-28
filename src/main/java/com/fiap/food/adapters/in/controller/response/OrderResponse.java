@@ -12,7 +12,6 @@ public class OrderResponse {
     private CustomerResponse customer;
     private List<ProductResponse> products;
     private LocalDateTime dateTimeOrder;
-    private Double amount;
     private OrderStatus status;
     private String confirmationCode;
 }

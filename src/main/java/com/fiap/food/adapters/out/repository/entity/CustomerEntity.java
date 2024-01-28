@@ -16,6 +16,7 @@ public class CustomerEntity {
     private Long id;
     private String name;
     private String cpf;
+    private String email;
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderEntity> orders = new ArrayList<>();
 }

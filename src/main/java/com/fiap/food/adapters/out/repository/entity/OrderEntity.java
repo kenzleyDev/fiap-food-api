@@ -31,8 +31,6 @@ public class OrderEntity {
     @Column(name = "date_time_order")
     private LocalDateTime dateTimeOrder;
 
-    private Double amount;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
