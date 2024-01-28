@@ -1,27 +1,29 @@
 package com.fiap.food.application.core.domain;
 
+import lombok.Data;
+
+import java.util.List;
+
 public class Customer {
+
+    public Customer() {
+    }
+
+    public Customer(Long id, String name, String cpf, String email, String password, List<Order> orders) {
+        this.id = id;
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+        this.password = password;
+        this.orders = orders;
+    }
 
     private Long id;
     private String name;
-
-    private Address address;
-
     private String cpf;
-
-    private Boolean isValidCpf;
-
-    public Customer() {
-        this.isValidCpf = false;
-    }
-
-    public Customer(Long id, String name, Address address, String cpf, Boolean isValidCpf) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.cpf = cpf;
-        this.isValidCpf = isValidCpf;
-    }
+    private String email;
+    private String password;
+    private List<Order> orders;
 
     public Long getId() {
         return id;
@@ -39,14 +41,6 @@ public class Customer {
         this.name = name;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public String getCpf() {
         return cpf;
     }
@@ -55,11 +49,27 @@ public class Customer {
         this.cpf = cpf;
     }
 
-    public Boolean getValidCpf() {
-        return isValidCpf;
+    public String getEmail() {
+        return email;
     }
 
-    public void setValidCpf(Boolean validCpf) {
-        isValidCpf = validCpf;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

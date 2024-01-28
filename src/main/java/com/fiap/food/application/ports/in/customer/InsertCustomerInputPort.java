@@ -1,8 +1,8 @@
-package com.fiap.food.application.ports.out;
+package com.fiap.food.application.ports.in.customer;
 
 import com.fiap.food.application.core.domain.Customer;
 
-public interface InsertCustomerOutputPort {
+public interface InsertCustomerInputPort {
 
     void insert(Customer customer);
 }
