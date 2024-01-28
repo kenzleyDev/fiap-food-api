@@ -11,7 +11,6 @@ public class Product {
         this.price = price;
         this.category = category;
         this.information = information;
-        this.quantity = quantity;
         this.order = order;
     }
 
