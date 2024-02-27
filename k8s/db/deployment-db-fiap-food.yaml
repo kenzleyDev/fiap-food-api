@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-db-fiap-food
+spec:
+  template:
+    metadata:
+      name: db-fiap-food
+      labels:
+        app: db-fiap-food
+    spec:
+      containers:
+        - name: db-fiap-food-container
+          image: postgres:14.4
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: db-configmap
+  selector:
+    matchLabels:
+      app: db-fiap-food

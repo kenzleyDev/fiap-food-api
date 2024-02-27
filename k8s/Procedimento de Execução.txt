@@ -1,0 +1,8 @@
+PASSO A PASSO PARA SUBIR NO K8S
+
+1 - aplicar os arquivos da api
+
+kubectl create -f hpa-fiap-food.yaml
+kubectl create -f servico-fiap-food.yaml
+kubectl create -f deployment-fiap-food.yaml
+

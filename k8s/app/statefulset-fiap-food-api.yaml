@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset-fiap-food-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fiap-food-api
+      name: fiap-food-api
+    spec:
+      containers:
+        - name: fiap-food-api-container
+          image: updateconsultoria/fiap-food:v1.3
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: configmap-fiap-food-api
+          volumeMounts:
+            - name: fiap-food
+              mountPath: /tmp
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /api/v1/products/1
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 5
+            initialDelaySeconds: 3
+      volumes:
+        - name: fiap-food
+          persistentVolumeClaim:
+            claimName: pvc-fiap-food
+  selector:
+    matchLabels:
+      app: fiap-food-api
+  serviceName: svc-fiap-food-api
