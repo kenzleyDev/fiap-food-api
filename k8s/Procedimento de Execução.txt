@@ -7,9 +7,10 @@ kubectl apply -f db-configmap.yaml
 kubectl apply -f deployment-db-fiap-food.yaml
 kubectl apply -f svc-db-fiap-food.yaml
 
+liberar porta no windows o k8s não acesso via nodeport
+    kubectl port-forward svc/svc-fiap-food-api 8080:8080
+
 2 - aplicar os arquivos da api
 
-kubectl create -f hpa-fiap-food.yaml
-kubectl create -f servico-fiap-food.yaml
-kubectl create -f deployment-fiap-food.yaml
+
 

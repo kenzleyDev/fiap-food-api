@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-fiap-food-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fiap-food-api
+      name: fiap-food-api
+    spec:
+      containers:
+        - name: fiap-food-api-container
+          image: updateconsultoria/fiap-food:v1.4
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: configmap-fiap-food-api
+  selector:
+    matchLabels:
+      app: fiap-food-api

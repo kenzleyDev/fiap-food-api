@@ -1,7 +1,7 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: deployment-db-fiap-food
+  name: statefulSet-db-fiap-food
 spec:
   template:
     metadata:
