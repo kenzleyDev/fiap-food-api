@@ -18,8 +18,12 @@ spec:
             - configMapRef:
                 name: db-configmap
           volumeMounts:
-            - name: persistent-volume-postgres
+            - name: vol-db-postgres
               mountPath: /var/lib/postgres
+      volumes:
+      - name: vol-db-postgres
+        persistentVolumeClaim: 
+          claimName: pvc-db-postgres
   selector:
     matchLabels:
       app: db-fiap-food

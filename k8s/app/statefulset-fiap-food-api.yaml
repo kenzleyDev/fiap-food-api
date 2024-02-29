@@ -18,9 +18,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: configmap-fiap-food-api
-          volumeMounts:
-            - name: fiap-food
-              mountPath: /tmp
           livenessProbe:
             httpGet:
               path: /
@@ -35,10 +32,6 @@ spec:
             periodSeconds: 10
             failureThreshold: 5
             initialDelaySeconds: 3
-      volumes:
-        - name: fiap-food
-          persistentVolumeClaim:
-            claimName: pvc-fiap-food
   selector:
     matchLabels:
       app: fiap-food-api

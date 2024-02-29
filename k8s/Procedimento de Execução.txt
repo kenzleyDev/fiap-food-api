@@ -1,6 +1,13 @@
 PASSO A PASSO PARA SUBIR NO K8S
 
-1 - aplicar os arquivos da api
+1 - aplicar os arquivos da db
+
+kubectl apply -f pvc-db-fiap-food.yaml
+kubectl apply -f db-configmap.yaml
+kubectl apply -f deployment-db-fiap-food.yaml
+kubectl apply -f svc-db-fiap-food.yaml
+
+2 - aplicar os arquivos da api
 
 kubectl create -f hpa-fiap-food.yaml
 kubectl create -f servico-fiap-food.yaml
