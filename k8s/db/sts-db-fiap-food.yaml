@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: statefulSet-db-fiap-food
+  name: statefulset-db-fiap-food
 spec:
   template:
     metadata:
@@ -15,8 +15,8 @@ spec:
           ports:
             - containerPort: 5432
           envFrom:
-            - configMapRef:
-                name: db-configmap
+            - secretRef:
+                name: secret-db-fiap-food
           volumeMounts:
             - name: vol-db-postgres
               mountPath: /var/lib/postgres
