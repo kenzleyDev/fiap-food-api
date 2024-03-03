@@ -1,7 +1,11 @@
 package com.fiap.food.api.product.service;
 
+import com.fiap.food.api.category.dto.Category;
+import com.fiap.food.api.category.mapper.CategoryEntityMapper;
+import com.fiap.food.api.category.service.CategoryService;
 import com.fiap.food.api.product.mapper.ProductEntityMapper;
 import com.fiap.food.api.product.dto.Product;
+import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.ProductEntity;
 import com.fiap.food.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +24,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductEntityMapper productEntityMapper;
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private CategoryEntityMapper categoryEntityMapper;
     @Override
-    public void insert(Product product) {
+    public void insert(Product product) throws NotFoundException {
         var productEntity = productEntityMapper.toProductEntity(product);
+        Optional<Category> category = categoryService.find(product.getCategory().getName());
+        productEntity.setCategory(categoryEntityMapper.toCategoryEntity(category.get()));
         productRepository.save(productEntity);
     }
 

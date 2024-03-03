@@ -1,20 +1,25 @@
 package com.fiap.food.api.order.service;
 
+import com.fiap.food.api.customer.dto.Customer;
 import com.fiap.food.api.customer.service.CustomerService;
+import com.fiap.food.api.order.dto.Order;
 import com.fiap.food.api.order.mapper.OrderEntityMapper;
+import com.fiap.food.api.payment.dto.Payment;
+import com.fiap.food.api.payment.mapper.PaymentEntityMapper;
+import com.fiap.food.api.product.dto.Product;
 import com.fiap.food.api.product.mapper.ProductEntityMapper;
 import com.fiap.food.api.product.service.ProductService;
-import com.fiap.food.api.customer.dto.Customer;
-import com.fiap.food.api.order.dto.Order;
-import com.fiap.food.api.product.dto.Product;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.OrderEntity;
+import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.OrderRepository;
 import com.fiap.food.enums.OrderStatus;
+import com.fiap.food.enums.StatusPaymentEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -37,14 +42,17 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private PaymentEntityMapper paymentEntityMapper;
+
     @Override
     public List<Order> findAll() {
-        List<OrderEntity> orders = orderRepository.findAll();
+        List<OrderEntity> orders = orderRepository.findOrdersOrderedByStatusAndDateTimeOrder();
         return orders.stream().map(orderEntityMapper::toOrder).toList();
     }
 
     @Override
-    public Optional<Order> findByConfirmationCode(String confirmationCode) throws NotFoundException {
+    public Optional<Order> findByConfirmationCode(String confirmationCode) {
         var orderEntity = orderRepository.findByConfirmationCode(confirmationCode);
         return orderEntity.map(entity -> orderEntityMapper.toOrder(entity));
     }
@@ -53,7 +61,7 @@ public class OrderServiceImpl implements OrderService{
     public void insert(String cpfCustomer, List<String> productsName) throws NotFoundException {
         Order order = new Order();
         order.setDateTimeOrder(LocalDateTime.now());
-        order.setStatus(OrderStatus.PENDING);
+        order.setStatus(OrderStatus.RECEIVED);
         order.setConfirmationCode(UUID.randomUUID().toString());
 
         // Customer
@@ -78,12 +86,36 @@ public class OrderServiceImpl implements OrderService{
         // Associando a lista de produtos à pedido
         order.setProducts(products);
 
-        orderRepository.save(orderEntityMapper.toOrderEntity(order));
+        // cria pagamento
+        var payment = new Payment();
+        var totalSumOrderAmount = order.getProducts().stream()
+                        .mapToDouble(Product::getPrice)
+                                .sum();
+
+        payment.setStatusPayment(StatusPaymentEnum.PENDING);
+        payment.setAmount(new BigDecimal(totalSumOrderAmount));
+        payment.setOrder(order);
+
+        OrderEntity orderEntity = orderEntityMapper.toOrderEntity(order);
+        PaymentEntity paymentEntity = paymentEntityMapper.toPaymentEntity(payment);
+
+        paymentEntity.setOrder(orderEntity);
+        orderEntity.setPayment(paymentEntity);
+
+        orderRepository.save(orderEntity);
     }
 
     @Override
-    public void updateConfirmOrder(Order order) throws NotFoundException {
+    public void updateConfirmOrder(Order order) {
         var orderEntity = orderEntityMapper.toOrderEntity(order);
         orderRepository.save(orderEntity);
+    }
+
+    @Override
+    public void putStatusOrderByConfirmationCodeAndStatus(String confirmationCode, String status) throws NotFoundException {
+        OrderEntity order = orderRepository.findByConfirmationCode(confirmationCode).orElseThrow(() -> new NotFoundException("Order not found"));
+        var orderStatus = OrderStatus.fromString(status);
+        order.setStatus(orderStatus);
+        orderRepository.save(order);
     }
 }

@@ -1,8 +1,8 @@
 package com.fiap.food.api.order.mapper;
 
 import com.fiap.food.api.customer.mapper.CustomerEntityMapper;
-import com.fiap.food.core.model.OrderEntity;
 import com.fiap.food.api.order.dto.Order;
+import com.fiap.food.core.model.OrderEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

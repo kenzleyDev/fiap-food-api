@@ -1,9 +1,11 @@
 package com.fiap.food.api.customer.dto;
 
 import com.fiap.food.api.order.dto.Order;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@EqualsAndHashCode
 public class Customer {
 
     public Customer() {
