@@ -81,4 +81,18 @@ public class OrderController {
         return ResponseEntity.noContent().build();
 
     }
+
+    @Operation(
+            summary = "Update status Order",
+            description = "Update status order")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+    })
+    @PutMapping("/status/{confirmationCode}/{statusOrder}")
+    public ResponseEntity<Void> updateStatusOrder(@PathVariable final String confirmationCode, @PathVariable final String statusOrder) throws NotFoundException {
+        orderService.putStatusOrderByConfirmationCodeAndStatus(confirmationCode, statusOrder);
+        return ResponseEntity.ok().build();
+
+    }
 }
