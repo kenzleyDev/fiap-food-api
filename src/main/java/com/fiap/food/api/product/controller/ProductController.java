@@ -39,10 +39,10 @@ public class ProductController {
             @ApiResponse(responseCode = "409", description = "conflict operation"),
     })
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody ProductRequest productRequest) throws NotFoundException {
         var product = productMapper.toProduct(productRequest);
         Category category = new Category();
-        category.setName(productRequest.getName());
+        category.setName(productRequest.getNameCategory());
         product.setCategory(category);
         productService.insert(product);
         return ResponseEntity.ok().build();

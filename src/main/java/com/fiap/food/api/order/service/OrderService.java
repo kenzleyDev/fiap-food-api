@@ -11,4 +11,6 @@ public interface OrderService {
     Optional<Order> findByConfirmationCode(String confirmationCode) throws NotFoundException;
     void insert(String cpfCustomer, List<String> productsName) throws NotFoundException;
     void updateConfirmOrder(Order order) throws NotFoundException;
+
+    void putStatusOrderByConfirmationCodeAndStatus(String confirmationCode, String status) throws NotFoundException;
 }

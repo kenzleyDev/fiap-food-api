@@ -37,4 +37,8 @@ public class OrderEntity {
     @Column(name = "confirmation_code")
     private String confirmationCode;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
+    private PaymentEntity payment;
+
 }
