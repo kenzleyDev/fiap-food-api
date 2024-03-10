@@ -16,10 +16,10 @@ public enum StatusPaymentEnum {
 
     public static StatusPaymentEnum fromString(String text) throws NotFoundException {
         for(StatusPaymentEnum statusPayment : StatusPaymentEnum.values()) {
-            if(statusPayment.statusPayment.equals(text)) {
+            if(statusPayment.statusPayment.equals(text.toUpperCase())) {
                 return statusPayment;
             }
         }
-        throw new NotFoundException("Status de order não encontrado: " + text);
+        throw new NotFoundException("Status de payment não encontrado: " + text);
     }
 }
