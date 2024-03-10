@@ -1,0 +1,24 @@
+PASSO A PASSO PARA SUBIR NO K8S
+
+1 - aplicar os arquivos da db
+
+kubectl apply -f pvc-db-fiap-food.yaml
+kubectl apply -f secrets-db-fiap-food.yaml
+kubectl apply -f sts-db-fiap-food.yaml
+kubectl apply -f svc-db-fiap-food.yaml
+
+2 - aplicar os arquivos da api
+    kubectl apply -f secrets-fiap-food-api.yaml
+    kubectl apply -f deployment-fiap-food-api.yaml
+    kubectl apply -f hpa-fiap-food-api.yaml
+    kubectl apply -f svc-fiap-food-api.yaml
+
+3 -  para funcionar o hpa precisa instalar o metrics server
+        fazer o download do arquivo 
+        https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.7.0/components.yaml
+        Incluir entre a linha 135 e 136 do arquivo ->   - --kubelet-insecure-tls  respeitar o alinhamento
+        Salvar e executar o comando abaixo 
+        kubectl apply -f components.yaml
+
+liberar porta no windows o k8s não acesso via nodeport
+    kubectl port-forward svc/svc-fiap-food-api 8080:8080

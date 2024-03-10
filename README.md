@@ -1,7 +1,26 @@
 
 # fiap-food-api
 
-API web de lanchonete para gestao de pedidos
+API web de lanchonete de autoatendimento de fast food, que tem como objetivo, garantir que a lanchonete possa atender os clientes de maneira eficiente, gerenciando os pedidos de forna adequada.
+
+
+# Entregável fase 02
+### Para essa fase 02 do projeto, estamos implementando os seguintes desafios:
+
+
+### API - Requisitos Funcionais
+* Refatoração do código para seguir os padrões clean code e clean architecture. <br>
+* Endpoint para checkout do Pedido que recebe os produtos solicitados e retorna a identificação do pedido.<br>
+* Endpoint para consulta de status do pagamento do pedido.<br>
+* WebHook para receber a confirmação do pagamento.<br>
+* Endpoint para retorno dos pedidos seguindo as seguintes regras: Pronto > Em Preparação > Recebido.<br>
+* Endpoint para atualizar o status do pedido.
+
+### Arquitetura em Kubernetes
+* Escalabilidade com aumento e diminuição de Pods conforme demanda.
+
+### Desenho da Arquitetura de Kubernetes
+<img src="src/main/resources/assets/arquiteturafase02.jpg">
 
 # Configuração do Ambiente
 Para configurar o ambiente de desenvolvimento para este projeto Java, siga as instruções abaixo. Certifique-se de ter o Docker instalado em seu sistema antes de prosseguir.
@@ -44,6 +63,13 @@ http://localhost:8080/swagger-ui.html
 
 ## Utilizando com Ferramentas de Teste de API
 Se preferir utilizar ferramentas como Postman, Insomnia ou outras, siga o tutorial abaixo para realizar as chamadas aos nossos serviços:
+
+
+## Ordem de Execução da API:
+* 1° (Opcional) Cadastrar um Cliente
+* 2° Cadastrar Categoria
+* 3° Cadastrar Produto
+* 4° Cadastrar o Pedido
 
 ## Consumindo API de Clientes (Customer)
 
@@ -192,4 +218,25 @@ Para atualizar o status de um pedido para CONFIRMADO, envie uma requisição PUT
 
 ```
 localhost:8080/api/v1/orders/{confirmationCode}
+````
+
+
+### Atualizar Status de um Pedido: 
+Para atualizar o status de um pedido, envie uma requisição PUT para
+```
+localhost:8080/api/v1/orders/status/{confirmationCode}
+
+````
+### status suportados: 
+* RECEIVED
+* IN_PREPARATION
+* READY
+* FINISHED
+* CANCELED
+
+### Buscar Status de pagamento de um Pedido:
+Para atualizar o status de pagamento de um pedido, envie uma requisição GET para
+```
+localhost:8080/api/v1/payment/status/{confirmationCode}
+
 ````
