@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: fiap-food-api-container
-          image: updateconsultoria/fiap-food:v1.4
+          image: updateconsultoria/fiap-food:v2.0
           ports:
             - containerPort: 80
           envFrom:
