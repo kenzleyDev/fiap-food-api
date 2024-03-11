@@ -14,5 +14,5 @@ docker push  masterdaweb/mw-cloud:mw-cloud
 docker logout
 docker login
 docker build -t fiap-food .
-docker tag fiap-food updateconsultoria/fiap-food:v1.4
-docker push updateconsultoria/fiap-food:v1.4
+docker tag fiap-food updateconsultoria/fiap-food:v2.0
+docker push updateconsultoria/fiap-food:v2.0

@@ -34,17 +34,13 @@ Para configurar o ambiente de desenvolvimento para este projeto Java, siga as in
 ```
 git clone https://github.com/kenzleyDev/fiap-food-api.git 
 ```
-2 - Acesse a pasta do projeto Java no terminal (PowerShell, Git Bash ou terminal do Linux).
 
-3 - Execute o comando Docker Compose para iniciar os serviços necessários e construir a aplicação.
-
+1 - Clone o repositório fiap-payment em sua máquina local.
 ```
-docker-compose up --build
+git clone https://github.com/guizin9/fiap-payment.git 
 ```
-
-Este comando iniciará os contêineres Docker necessários para executar a aplicação, incluindo qualquer configuração adicional especificada no arquivo docker-compose.yml.
-
-Certifique-se de aguardar até que todos os serviços sejam iniciados com êxito. Após a conclusão, a aplicação estará pronta para ser acessada localmente.
+## Acesse o link abaixo para saber como subir o k8s:
+[Youtube](https://www.youtube.com/watch?v=OCynASsCGOM)
 
 ## EM CASO DE ERRO COM O BANCO DE DADOS
 * Verificar no application.properties da aplicação em src/main/resources se em spring.datasource.url: está apontando para o banco de dados disponibilizado no docker
