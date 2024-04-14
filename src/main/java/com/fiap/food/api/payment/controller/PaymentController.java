@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Payment", description = "the Payment Api")
 @RestController
-@RequestMapping("api/v1/payment")
+@RequestMapping("/api/v1/payment")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;

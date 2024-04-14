@@ -1,7 +1,7 @@
 package com.fiap.food.api.payment.service;
 
+import com.fiap.food.api.assembler.PaymentMapper;
 import com.fiap.food.api.payment.dto.PaymentResponse;
-import com.fiap.food.api.payment.mapper.PaymentEntityMapper;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.PaymentRepository;
@@ -12,10 +12,10 @@ public class PaymentServiceImpl implements PaymentService{
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
-    private PaymentEntityMapper paymentEntityMapper;
+    private PaymentMapper paymentEntityMapper;
     @Override
     public PaymentResponse findStatusPaymentByConfirmationCodeOrder(String confirmationCode) throws NotFoundException {
         PaymentEntity byOrderConfirmationCode = paymentRepository.findByOrderConfirmationCode(confirmationCode).orElseThrow(() -> new NotFoundException("Order not found"));
-        return paymentEntityMapper.toPaymentResponse(byOrderConfirmationCode);
+        return paymentEntityMapper.toOutput(byOrderConfirmationCode);
     }
 }

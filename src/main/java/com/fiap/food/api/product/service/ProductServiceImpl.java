@@ -1,10 +1,9 @@
 package com.fiap.food.api.product.service;
 
-import com.fiap.food.api.category.dto.Category;
-import com.fiap.food.api.category.mapper.CategoryEntityMapper;
+import com.fiap.food.api.assembler.CategoryMapper;
+import com.fiap.food.api.assembler.ProductMapper;
 import com.fiap.food.api.category.service.CategoryService;
-import com.fiap.food.api.product.mapper.ProductEntityMapper;
-import com.fiap.food.api.product.dto.Product;
+import com.fiap.food.api.product.dto.ProductRequest;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.ProductEntity;
 import com.fiap.food.core.repository.ProductRepository;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,20 +19,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
-    private ProductEntityMapper productEntityMapper;
+    private ProductMapper productMapper;
     @Autowired
     private CategoryService categoryService;
-
     @Autowired
-    private CategoryEntityMapper categoryEntityMapper;
+    private CategoryMapper categoryMapper;
     @Override
-    public void insert(Product product) throws NotFoundException {
-        var productEntity = productEntityMapper.toProductEntity(product);
-        Optional<Category> category = categoryService.find(product.getCategory().getName());
-        productEntity.setCategory(categoryEntityMapper.toCategoryEntity(category.get()));
-        productRepository.save(productEntity);
+    public ProductEntity insert(ProductRequest product) throws NotFoundException {
+        var productEntity = productMapper.toEntity(product);
+        var category = categoryService.find(product.getNameCategory());
+        productEntity.setCategory(category);
+        return productRepository.save(productEntity);
     }
 
     @Override
@@ -43,26 +39,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(Product product) {
-        var productEntity = productEntityMapper.toProductEntity(product);
-        productRepository.save(productEntity);
+    public void update(ProductEntity product) {
+        productRepository.save(product);
     }
 
     @Override
-    public List<Product> findByCategoryName(String categoryName) {
+    public List<ProductEntity> findByCategoryName(String categoryName) {
         List<ProductEntity> products = productRepository.findByCategoryName(categoryName);
-        return products.stream().map(productEntityMapper::toProduct).toList();
+        return products;
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
-        var productEntity = productRepository.findById(id);
-        return productEntity.map(entity -> productEntityMapper.toProduct(entity));
+    public ProductEntity findById(Long id) throws NotFoundException {
+        var productEntity = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
+        return productEntity;
     }
 
     @Override
-    public Optional<Product> findByProductName(String productName) {
-        var productEntity = productRepository.findByName(productName);
-        return productEntity.map(entity -> productEntityMapper.toProduct(entity));
+    public ProductEntity findByProductName(String productName) throws NotFoundException {
+        var productEntity = productRepository.findByName(productName).orElseThrow(() -> new NotFoundException("Product not found"));
+        return productEntity;
     }
 }

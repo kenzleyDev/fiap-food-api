@@ -1,16 +1,17 @@
 package com.fiap.food.api.order.service;
 
-import com.fiap.food.api.order.dto.Order;
+import com.fiap.food.api.order.dto.OrderRequest;
 import com.fiap.food.core.exception.NotFoundException;
+import com.fiap.food.core.model.OrderEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<Order> findAll();
-    Optional<Order> findByConfirmationCode(String confirmationCode) throws NotFoundException;
+    List<OrderEntity> findAll();
+    OrderEntity findByConfirmationCode(String confirmationCode) throws NotFoundException;
     void insert(String cpfCustomer, List<String> productsName) throws NotFoundException;
-    void updateConfirmOrder(Order order) throws NotFoundException;
+    void updateConfirmOrder(OrderEntity order) throws NotFoundException;
 
     void putStatusOrderByConfirmationCodeAndStatus(String confirmationCode, String status) throws NotFoundException;
 }

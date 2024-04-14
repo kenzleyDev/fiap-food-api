@@ -1,12 +1,13 @@
 package com.fiap.food.api.product.controller;
 
-import com.fiap.food.api.category.dto.Category;
-import com.fiap.food.api.product.dto.Product;
+import com.fiap.food.api.assembler.CategoryMapper;
+import com.fiap.food.api.assembler.ProductMapper;
+import com.fiap.food.api.category.dto.CategoryRequest;
 import com.fiap.food.api.product.dto.ProductRequest;
 import com.fiap.food.api.product.dto.ProductResponse;
-import com.fiap.food.api.product.mapper.ProductMapper;
 import com.fiap.food.api.product.service.ProductService;
 import com.fiap.food.core.exception.NotFoundException;
+import com.fiap.food.core.model.ProductEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,6 +32,9 @@ public class ProductController {
     @Autowired
     private ProductMapper productMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     @Operation(
             summary = "Insert new Product",
             description = "save a new product")
@@ -38,13 +42,13 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "successful operation"),
             @ApiResponse(responseCode = "409", description = "conflict operation"),
     })
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Void> insert(@Valid @RequestBody ProductRequest productRequest) throws NotFoundException {
-        var product = productMapper.toProduct(productRequest);
-        Category category = new Category();
+        var product = productMapper.toEntity(productRequest);
+        var category = new CategoryRequest();
         category.setName(productRequest.getNameCategory());
-        product.setCategory(category);
-        productService.insert(product);
+        product.setCategory(categoryMapper.toEntity(category));
+        productService.insert(productMapper.toRequest(product));
         return ResponseEntity.ok().build();
     }
 
@@ -59,7 +63,7 @@ public class ProductController {
    @GetMapping("/{id}")
    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) throws NotFoundException {
        var product = productService.findById(id);
-       var productResponse = productMapper.toProductResponse(product.get());
+       var productResponse = productMapper.toOutput(product);
        return ResponseEntity.ok().body(productResponse);
     }
 
@@ -72,10 +76,10 @@ public class ProductController {
     })
    @GetMapping("/category/{categoryName}")
    public ResponseEntity<List<ProductResponse>> findByCategoryName(@PathVariable String categoryName) throws NotFoundException {
-       List<Product> products = productService.findByCategoryName(categoryName);
+       var products = productService.findByCategoryName(categoryName);
 
        List<ProductResponse> productResponses = products.stream()
-                    .map(productMapper::toProductResponse)
+                    .map(productMapper::toOutput)
                     .collect(Collectors.toList());
        return ResponseEntity.ok(productResponses);
         }
@@ -90,7 +94,7 @@ public class ProductController {
    @GetMapping("/product/{productName}")
    public ResponseEntity<ProductResponse> findByProductName(@PathVariable String productName) throws NotFoundException {
       var product = productService.findByProductName(productName);
-      var productResponse = productMapper.toProductResponse(product.get());
+      var productResponse = productMapper.toOutput(product);
       return ResponseEntity.ok().body(productResponse);
     }
 
@@ -104,11 +108,11 @@ public class ProductController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @Valid @RequestBody ProductRequest productRequest) throws NotFoundException {
-        Product product = productMapper.toProduct(productRequest);
+        ProductEntity product = productMapper.toEntity(productRequest);
         product.setId(id);
-        Category category = new Category();
+        CategoryRequest category = new CategoryRequest();
         category.setName(productRequest.getName());
-        product.setCategory(category);
+        product.setCategory(categoryMapper.toEntity(category));
         productService.update(product);
         return ResponseEntity.noContent().build();
     }

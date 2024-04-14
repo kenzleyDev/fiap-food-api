@@ -1,6 +1,5 @@
 package com.fiap.food.api.payment.dto;
 
-import com.fiap.food.api.order.dto.Order;
 import com.fiap.food.api.order.dto.OrderResponse;
 import com.fiap.food.enums.StatusPaymentEnum;
 import lombok.Data;

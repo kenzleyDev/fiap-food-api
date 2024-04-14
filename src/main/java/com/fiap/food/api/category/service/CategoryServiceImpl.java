@@ -1,15 +1,13 @@
 package com.fiap.food.api.category.service;
 
-import com.fiap.food.api.category.mapper.CategoryEntityMapper;
-import com.fiap.food.api.category.dto.Category;
+import com.fiap.food.api.assembler.CategoryMapper;
+import com.fiap.food.api.category.dto.CategoryRequest;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.CategoryEntity;
 import com.fiap.food.core.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,29 +17,29 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryEntityMapper categoryEntityMapper;
+    private CategoryMapper categoryMapper;
     @Override
-    public void insert(Category category) {
-        CategoryEntity categoryEntity = categoryEntityMapper.toCategoryEntity(category);
+    public CategoryEntity insert(CategoryRequest category) {
+        CategoryEntity categoryEntity = categoryMapper.toEntity(category);
+        return categoryRepository.save(categoryEntity);
+    }
+
+    @Override
+    public void update(CategoryRequest category) throws NotFoundException {
+        var categoryEntity = categoryMapper.toEntity(category);
         categoryRepository.save(categoryEntity);
     }
 
     @Override
-    public void update(Category category) throws NotFoundException {
-        var categoryEntity = categoryEntityMapper.toCategoryEntity(category);
-        categoryRepository.save(categoryEntity);
+    public CategoryEntity find(String categoryName) throws NotFoundException {
+        var category = categoryRepository.findByName(categoryName).orElseThrow(() -> new NotFoundException("Category not Found"));
+        return category;
     }
 
     @Override
-    public Optional<Category> find(String categoryName) throws NotFoundException {
-        var category = categoryRepository.findByName(categoryName);
-        return category.map(entity -> categoryEntityMapper.toCategory(entity));
-    }
-
-    @Override
-    public Optional<Category> find(Long id) throws NotFoundException {
-        var categoryEntity = categoryRepository.findById(id);
-        return categoryEntity.map(entity -> categoryEntityMapper.toCategory(entity));
+    public CategoryEntity find(Long id) throws NotFoundException {
+        CategoryEntity category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Category not Found"));
+        return category;
     }
 
     @Override

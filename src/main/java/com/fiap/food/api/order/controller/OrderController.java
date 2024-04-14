@@ -1,9 +1,8 @@
 package com.fiap.food.api.order.controller;
 
-import com.fiap.food.api.order.dto.Order;
+import com.fiap.food.api.assembler.OrderMapper;
 import com.fiap.food.api.order.dto.OrderRequest;
 import com.fiap.food.api.order.dto.OrderResponse;
-import com.fiap.food.api.order.mapper.OrderMapper;
 import com.fiap.food.api.order.service.OrderService;
 import com.fiap.food.core.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +47,8 @@ public class OrderController {
     })
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAll() {
-        List<Order> orders = orderService.findAll();
-        List<OrderResponse> response = orders.stream().map(orderMapper::toOrderResponse).toList();
+        var orders = orderService.findAll();
+        List<OrderResponse> response = orders.stream().map(orderMapper::toOutput).toList();
         return ResponseEntity.ok().body(response);
     }
 
@@ -63,7 +62,7 @@ public class OrderController {
     @GetMapping("/{confirmationCode}")
     public ResponseEntity<OrderResponse> findByConfirmationCode(@PathVariable final String confirmationCode) throws NotFoundException {
         var order = orderService.findByConfirmationCode(confirmationCode);
-        var orderResponse = orderMapper.toOrderResponse(order.get());
+        var orderResponse = orderMapper.toOutput(order);
         return ResponseEntity.ok().body(orderResponse);
     }
 
@@ -77,7 +76,7 @@ public class OrderController {
     @PutMapping("/confirm/{confirmationCode}")
     public ResponseEntity<Void> update(@PathVariable final String confirmationCode) throws NotFoundException {
         var order = orderService.findByConfirmationCode(confirmationCode);
-        orderService.updateConfirmOrder(order.get());
+        orderService.updateConfirmOrder(order);
         return ResponseEntity.noContent().build();
 
     }
