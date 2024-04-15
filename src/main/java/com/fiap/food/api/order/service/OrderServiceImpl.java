@@ -38,8 +38,6 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private OrderMapper orderEntityMapper;
 
-    @Autowired
-    private ProductMapper productEntityMapper;
 
     @Autowired
     private ProductService productService;
