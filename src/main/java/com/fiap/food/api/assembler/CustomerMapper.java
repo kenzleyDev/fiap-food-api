@@ -2,10 +2,7 @@ package com.fiap.food.api.assembler;
 
 import com.fiap.food.api.customer.dto.CustomerRequest;
 import com.fiap.food.api.customer.dto.CustomerResponse;
-import com.fiap.food.api.order.dto.OrderRequest;
-import com.fiap.food.api.order.dto.OrderResponse;
 import com.fiap.food.core.model.CustomerEntity;
-import com.fiap.food.core.model.OrderEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;

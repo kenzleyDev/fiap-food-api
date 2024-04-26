@@ -5,7 +5,6 @@ import com.fiap.food.api.payment.dto.PaymentResponse;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.PaymentRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 @Service
