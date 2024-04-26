@@ -12,7 +12,9 @@ public class CategoryMapper {
     private final ModelMapper modelMapper;
     PropertyMap<CategoryRequest, CategoryEntity> skipModifiedFieldsMap = new PropertyMap<>() {
         protected void configure() {
-            // TODO document why this method is empty
+           /**
+            * TODO not implemented
+            * ***/
         }
     };
     public CategoryMapper(ModelMapper modelMapper) {

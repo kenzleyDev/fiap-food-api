@@ -17,9 +17,7 @@ import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.OrderRepository;
 import com.fiap.food.enums.OrderStatus;
 import com.fiap.food.enums.StatusPaymentEnum;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
