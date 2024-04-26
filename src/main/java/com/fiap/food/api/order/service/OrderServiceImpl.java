@@ -1,16 +1,15 @@
 package com.fiap.food.api.order.service;
 
-import com.fiap.food.api.customer.dto.Customer;
+import com.fiap.food.api.assembler.CustomerMapper;
+import com.fiap.food.api.assembler.OrderMapper;
+import com.fiap.food.api.assembler.PaymentMapper;
+import com.fiap.food.api.assembler.ProductMapper;
 import com.fiap.food.api.customer.service.CustomerService;
-import com.fiap.food.api.order.dto.Order;
-import com.fiap.food.api.order.mapper.OrderEntityMapper;
-import com.fiap.food.api.payment.dto.Payment;
-import com.fiap.food.api.payment.mapper.PaymentEntityMapper;
-import com.fiap.food.api.product.dto.Product;
-import com.fiap.food.api.product.mapper.ProductEntityMapper;
+import com.fiap.food.api.order.dto.OrderRequest;
+import com.fiap.food.api.payment.dto.PaymentRequest;
+import com.fiap.food.api.product.dto.ProductRequest;
 import com.fiap.food.api.product.service.ProductService;
 import com.fiap.food.client.dto.PaymentRequestClientDTO;
-import com.fiap.food.client.dto.StatusPaymentResponseDTO;
 import com.fiap.food.client.service.PaymentClientService;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.OrderEntity;
@@ -18,55 +17,53 @@ import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.OrderRepository;
 import com.fiap.food.enums.OrderStatus;
 import com.fiap.food.enums.StatusPaymentEnum;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private OrderEntityMapper orderEntityMapper;
+    private final OrderMapper orderEntityMapper;
 
-    @Autowired
-    private ProductEntityMapper productEntityMapper;
+    private final ProductService productService;
 
-    @Autowired
-    private ProductService productService;
+    private final CustomerService customerService;
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerMapper customerMapper;
 
-    @Autowired
-    private PaymentEntityMapper paymentEntityMapper;
+    private final PaymentMapper paymentEntityMapper;
 
-    @Autowired
-    private PaymentClientService paymentClientService;
+    private final ProductMapper productMapper;
+
+    private final PaymentClientService paymentClientService;
 
     @Override
-    public List<Order> findAll() {
+    public List<OrderEntity> findAll() {
         List<OrderEntity> orders = orderRepository.findOrdersOrderedByStatusAndDateTimeOrder();
-        return orders.stream().map(orderEntityMapper::toOrder).toList();
+        return orders;
     }
 
     @Override
-    public Optional<Order> findByConfirmationCode(String confirmationCode) {
-        var orderEntity = orderRepository.findByConfirmationCode(confirmationCode);
-        return orderEntity.map(entity -> orderEntityMapper.toOrder(entity));
+    public OrderEntity findByConfirmationCode(String confirmationCode) throws NotFoundException {
+        var orderEntity = orderRepository.findByConfirmationCode(confirmationCode).orElseThrow(() -> new NotFoundException("Order not found"));
+        return orderEntity;
     }
 
     @Override
     public void insert(String cpfCustomer, List<String> productsName) throws NotFoundException {
-        Order order = new Order();
+        var order = new OrderRequest();
         order.setDateTimeOrder(LocalDateTime.now());
         order.setStatus(OrderStatus.RECEIVED);
         order.setConfirmationCode(UUID.randomUUID().toString());
@@ -76,8 +73,8 @@ public class OrderServiceImpl implements OrderService{
 
         var payment = processaPagamento(order);
 
-        OrderEntity orderEntity = orderEntityMapper.toOrderEntity(order);
-        PaymentEntity paymentEntity = paymentEntityMapper.toPaymentEntity(payment);
+        OrderEntity orderEntity = orderEntityMapper.toEntity(order);
+        PaymentEntity paymentEntity = paymentEntityMapper.toEntity(payment);
 
         paymentEntity.setOrder(orderEntity);
         orderEntity.setPayment(paymentEntity);
@@ -85,36 +82,35 @@ public class OrderServiceImpl implements OrderService{
         orderRepository.save(orderEntity);
     }
 
-    private void vincularCliente(String cpfCustomer, Order order) throws NotFoundException {
+    private void vincularCliente(String cpfCustomer, OrderRequest order) throws NotFoundException {
         // Customer
         if (!Objects.isNull(cpfCustomer) && !cpfCustomer.isBlank()) {
-            Optional<Customer> customer = customerService.findByCpf(cpfCustomer);
-            customer.ifPresent(order::setCustomer);
+            var customer = customerService.findByCpf(cpfCustomer);
+            order.setCustomer(customerMapper.toRequest(customer));
         }
     }
 
-    private void processaProdutos(List<String> productsName, Order order) {
+    private void processaProdutos(List<String> productsName, OrderRequest order) {
         // Product
-        List<Product> products = new ArrayList<>();
-        productsName.forEach(productName -> {
-            Optional<Product> productOptional = productService.findByProductName(productName);
-            productOptional.ifPresent(product -> {
-                // Associando o produto à pedido
-                product.setOrder(order);
+        List<ProductRequest> products = new ArrayList<>();
 
-                // Adicionando o produto à lista
-                products.add(product);
-            });
+        productsName.forEach(productName -> {
+            try {
+                var byProductName = productService.findByProductName(productName);
+                products.add(productMapper.toRequest(byProductName));
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         // Associando a lista de produtos à pedido
         order.setProducts(products);
     }
 
-    private Payment processaPagamento(Order order) throws NotFoundException {
-        var payment = new Payment();
+    private PaymentRequest processaPagamento(OrderRequest order) throws NotFoundException {
+        var payment = new PaymentRequest();
         var totalSumOrderAmount = order.getProducts().stream()
-                        .mapToDouble(Product::getPrice)
+                        .mapToDouble(ProductRequest::getPrice)
                                 .sum();
 
         PaymentRequestClientDTO paymentRequestClientDTO = new PaymentRequestClientDTO();
@@ -130,9 +126,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void updateConfirmOrder(Order order) {
-        var orderEntity = orderEntityMapper.toOrderEntity(order);
-        orderRepository.save(orderEntity);
+    public void updateConfirmOrder(OrderEntity order) {
+        orderRepository.save(order);
     }
 
     @Override

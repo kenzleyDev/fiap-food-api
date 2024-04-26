@@ -1,44 +1,36 @@
 package com.fiap.food.api.customer.service;
 
-import com.fiap.food.api.customer.mapper.CustomerEntityMapper;
-import com.fiap.food.api.customer.dto.Customer;
+import com.fiap.food.api.assembler.CustomerMapper;
 import com.fiap.food.core.exception.NotFoundException;
+import com.fiap.food.core.model.CustomerEntity;
 import com.fiap.food.core.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private CustomerEntityMapper customerEntityMapper;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerEntityMapper;
     @Override
-    public void insert(Customer customer) {
-        var customerEntity = customerEntityMapper.toCustomerEntity(customer);
-        customerRepository.save(customerEntity);
+    public void insert(CustomerEntity customer) {
+        customerRepository.save(customer);
     }
 
     @Override
-    public void update(Customer customer) throws NotFoundException {
-        var customerEntity = customerEntityMapper.toCustomerEntity(customer);
-        customerRepository.save(customerEntity);
+    public void update(CustomerEntity customer) throws NotFoundException {
+        customerRepository.save(customer);
     }
 
     @Override
-    public Optional<Customer> findById(Long id) throws NotFoundException {
-        var customerEntity = customerRepository.findById(id);
-        return customerEntity.map(entity -> customerEntityMapper.toCustomer(entity));
+    public CustomerEntity findById(Long id) throws NotFoundException {
+        return customerRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 
     @Override
-    public Optional<Customer> findByCpf(String cpf) throws NotFoundException {
-        var customerEntity = customerRepository.findByCpf(cpf);
-        return customerEntity.map(entity -> customerEntityMapper.toCustomer(entity));
+    public CustomerEntity findByCpf(String cpf) throws NotFoundException {
+       return customerRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Customer not Found"));
     }
 
     @Override

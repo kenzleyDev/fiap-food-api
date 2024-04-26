@@ -1,6 +1,5 @@
 package com.fiap.food.api.payment.service;
 
-import com.fiap.food.api.payment.dto.Payment;
 import com.fiap.food.api.payment.dto.PaymentResponse;
 import com.fiap.food.core.exception.NotFoundException;
 

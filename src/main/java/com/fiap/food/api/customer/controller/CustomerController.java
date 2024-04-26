@@ -1,9 +1,8 @@
 package com.fiap.food.api.customer.controller;
 
-import com.fiap.food.api.customer.dto.Customer;
+import com.fiap.food.api.assembler.CustomerMapper;
 import com.fiap.food.api.customer.dto.CustomerRequest;
 import com.fiap.food.api.customer.dto.CustomerResponse;
-import com.fiap.food.api.customer.mapper.CustomerMapper;
 import com.fiap.food.api.customer.service.CustomerService;
 import com.fiap.food.core.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Customer", description = "the Customer Api")
 @RestController
 @RequestMapping("/api/v1/customers")
+@RequiredArgsConstructor
 public class CustomerController {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     @Operation(
             summary = "Insert new Customer",
@@ -37,7 +37,7 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> insert(@Valid @RequestBody CustomerRequest customerRequest) {
-        var customer = customerMapper.toCustomer(customerRequest);
+        var customer = customerMapper.toEntity(customerRequest);
         customerService.insert(customer);
         return ResponseEntity.ok().build();
     }
@@ -52,10 +52,9 @@ public class CustomerController {
     @GetMapping("/identify/{cpf}")
     public ResponseEntity<CustomerResponse> findByCpf(@PathVariable final String cpf) throws NotFoundException {
         var customer = customerService.findByCpf(cpf);
-        var customerResponse = customerMapper.toCustomerResponse(customer.get());
+        var customerResponse = customerMapper.toOutput(customer);
         return ResponseEntity.ok().body(customerResponse);
     }
-
     @Operation(
             summary = "Search Customer",
             description = "Search a categoy by id")
@@ -66,7 +65,7 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable final Long id) throws NotFoundException {
         var customer = customerService.findById(id);
-        var customerResponse = customerMapper.toCustomerResponse(customer.get());
+        var customerResponse = customerMapper.toOutput(customer);
         return ResponseEntity.ok().body(customerResponse);
     }
 
@@ -80,7 +79,7 @@ public class CustomerController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id,@RequestBody @Valid CustomerRequest customerRequest) throws NotFoundException {
-        Customer customer = customerMapper.toCustomer(customerRequest);
+        var customer = customerMapper.toEntity(customerRequest);
         customer.setId(id);
         customerService.update(customer);
         return ResponseEntity.noContent().build();
