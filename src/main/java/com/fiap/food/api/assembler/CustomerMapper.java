@@ -15,9 +15,10 @@ import java.util.List;
 
 @Component
 public class CustomerMapper {
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     PropertyMap<CustomerRequest, CustomerEntity> skipModifiedFieldsMap = new PropertyMap<>() {
         protected void configure() {
+            // TODO document why this method is empty
         }
     };
     public CustomerMapper(ModelMapper modelMapper) {
@@ -26,18 +27,15 @@ public class CustomerMapper {
     }
     public CustomerEntity toEntity(CustomerRequest request) {
 
-        var customerEntity = modelMapper.map(request, CustomerEntity.class);
-        return customerEntity;
+        return modelMapper.map(request, CustomerEntity.class);
     }
     public CustomerResponse toOutput(CustomerEntity customerEntity) {
-        CustomerResponse customerResponse = modelMapper.map(customerEntity, CustomerResponse.class);
-        return customerResponse;
+        return modelMapper.map(customerEntity, CustomerResponse.class);
     }
 
     public CustomerRequest toRequest(CustomerEntity customerEntity) {
 
-        CustomerRequest customerRequest = modelMapper.map(customerEntity, CustomerRequest.class);
-        return customerRequest;
+        return modelMapper.map(customerEntity, CustomerRequest.class);
     }
 
     public List<CustomerResponse> toResponseList(List<CustomerEntity> requests) {

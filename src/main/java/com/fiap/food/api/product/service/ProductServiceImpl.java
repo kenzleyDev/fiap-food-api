@@ -7,8 +7,8 @@ import com.fiap.food.api.product.dto.ProductRequest;
 import com.fiap.food.core.exception.NotFoundException;
 import com.fiap.food.core.model.ProductEntity;
 import com.fiap.food.core.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private ProductMapper productMapper;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private CategoryMapper categoryMapper;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+    private final CategoryService categoryService;
     @Override
     public ProductEntity insert(ProductRequest product) throws NotFoundException {
         var productEntity = productMapper.toEntity(product);
@@ -45,19 +40,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductEntity> findByCategoryName(String categoryName) {
-        List<ProductEntity> products = productRepository.findByCategoryName(categoryName);
-        return products;
+        return productRepository.findByCategoryName(categoryName);
     }
 
     @Override
     public ProductEntity findById(Long id) throws NotFoundException {
-        var productEntity = productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
-        return productEntity;
+        return productRepository.findById(id).orElseThrow(() -> new NotFoundException("Product not found"));
     }
 
     @Override
     public ProductEntity findByProductName(String productName) throws NotFoundException {
-        var productEntity = productRepository.findByName(productName).orElseThrow(() -> new NotFoundException("Product not found"));
-        return productEntity;
+        return productRepository.findByName(productName).orElseThrow(() -> new NotFoundException("Product not found"));
     }
 }

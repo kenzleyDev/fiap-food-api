@@ -18,6 +18,7 @@ public class PaymentMapper {
     private ModelMapper modelMapper;
     PropertyMap<PaymentRequestClientDTO, PaymentEntity> skipModifiedFieldsMap = new PropertyMap<>() {
         protected void configure() {
+            // TODO document why this method is empty
         }
     };
     public PaymentMapper(ModelMapper modelMapper) {
@@ -27,13 +28,11 @@ public class PaymentMapper {
 
     public PaymentEntity toEntity(PaymentRequest request) {
 
-        PaymentEntity paymentEntity = modelMapper.map(request, PaymentEntity.class);
-        return paymentEntity;
+        return modelMapper.map(request, PaymentEntity.class);
     }
 
     public PaymentResponse toOutput(PaymentEntity paymentEntity) {
 
-        PaymentResponse paymentResponse = modelMapper.map(paymentEntity, PaymentResponse.class);
-        return paymentResponse;
+        return modelMapper.map(paymentEntity, PaymentResponse.class);
     }
 }

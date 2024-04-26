@@ -17,6 +17,7 @@ import com.fiap.food.core.model.PaymentEntity;
 import com.fiap.food.core.repository.OrderRepository;
 import com.fiap.food.enums.OrderStatus;
 import com.fiap.food.enums.StatusPaymentEnum;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,30 +33,21 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
-    @Autowired
-    private OrderMapper orderEntityMapper;
+    private final OrderMapper orderEntityMapper;
 
+    private final ProductService productService;
 
-    @Autowired
-    private ProductService productService;
+    private final CustomerService customerService;
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerMapper customerMapper;
 
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final PaymentMapper paymentEntityMapper;
 
-    @Autowired
-    private PaymentMapper paymentEntityMapper;
+    private final ProductMapper productMapper;
 
-    @Autowired
-    private ProductMapper productMapper;
-
-    @Autowired
-    private PaymentClientService paymentClientService;
+    private final PaymentClientService paymentClientService;
 
     @Override
     public List<OrderEntity> findAll() {

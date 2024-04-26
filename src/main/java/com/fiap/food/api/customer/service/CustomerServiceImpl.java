@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService{
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private CustomerMapper customerEntityMapper;
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerEntityMapper;
     @Override
     public void insert(CustomerEntity customer) {
         customerRepository.save(customer);
