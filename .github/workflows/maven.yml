@@ -34,7 +34,12 @@ jobs:
       run: docker-compose up -d
         
     - name: Run tests
-      run: mvn test -Dspring.profiles.active=deploy
+      run: mvn test -Dspring.profiles.active=deploy \
+          -DSPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/fiap-fastfood \
+          -DSPRING_DATASOURCE_USERNAME=postgres \
+          -DSPRING_DATASOURCE_PASSWORD=root \
+          -DSPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver \
+          -DAPI_PAYMENT_URL=http://localhost:8082
 
       
   build:
