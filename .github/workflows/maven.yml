@@ -9,15 +9,19 @@
 name: Java
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
+
+  Build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest']
+        
   build:
     runs-on: ubuntu-latest
-
     env:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/fiap-fastfood
       SPRING_DATASOURCE_USERNAME: postgres
