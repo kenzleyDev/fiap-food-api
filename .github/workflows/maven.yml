@@ -44,7 +44,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -Dspring.profiles.active=deploy --file pom.xml
 
-docker:
-  needs: build
-  uses: ./.github/workflows/Docker.yml
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
 
