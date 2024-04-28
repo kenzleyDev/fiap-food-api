@@ -14,12 +14,6 @@ on:
 
 jobs:
 
-  Build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-latest']
-        
   build:
     runs-on: ubuntu-latest
     env:
@@ -49,7 +43,6 @@ jobs:
       
     - name: Build with Maven
       run: mvn -B package -Dspring.profiles.active=deploy --file pom.xml
-
 
 docker:
   needs: build
