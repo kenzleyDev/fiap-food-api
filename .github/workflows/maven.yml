@@ -34,7 +34,7 @@ jobs:
       run: docker-compose up -d
         
     - name: Run tests
-      run: mvn test -Pdeploy
+      run: mvn test -Dspring.profiles.active=deploy
 
       
   build:
