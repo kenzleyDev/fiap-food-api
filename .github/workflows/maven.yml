@@ -39,7 +39,8 @@ jobs:
       run: docker-compose up -d
 
     - name: Sonar Scan
-      run: mvn clean verify sonar:sonar -Dspring.profiles.active=deploy -Dsonar.projectKey=kenzleyDev_fiap-food-api -Dsonar.organization=kenzleydev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+  
+      run: mvn -Dsonar.coverage.jacoco.xmlReportPaths=../app-it/target/site/jacoco-aggregate/jacoco.xml sonar:sonar -Pcoverage -Dspring.profiles.active=deploy -Dsonar.projectKey=kenzleyDev_fiap-food-api -Dsonar.organization=kenzleydev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
