@@ -38,6 +38,9 @@ jobs:
     - name: Create-DB
       run: docker-compose up -d
 
+    - name: Build with Maven
+      run: mvn -B package -Dspring.profiles.active=deploy --file pom.xml
+
     - name: Copy JAR to temporary directory
       run: cp target/*.jar ${{ github.workspace }}/temp
 
