@@ -38,21 +38,6 @@ jobs:
     - name: Create-DB
       run: docker-compose up -d
 
-    - name: Sonar Scan
-  
-      run: mvn -Dsonar.coverage.jacoco.xmlReportPaths=../app-it/target/site/jacoco-aggregate/jacoco.xml sonar:sonar -Pcoverage -Dspring.profiles.active=deploy -Dsonar.projectKey=kenzleyDev_fiap-food-api -Dsonar.organization=kenzleydev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        
-    - name: Build with Maven
-      run: mvn -B package -Dspring.profiles.active=deploy --file pom.xml
-
-    #- name: SonarCloud Scan
-     # uses: SonarSource/sonarcloud-github-action@master
-      #env:
-       # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.3.3
       with:
@@ -60,7 +45,6 @@ jobs:
         name: api em Java
       # A file, directory or wildcard pattern that describes what to upload
         path: main
-          
 
   docker:
     needs: build
