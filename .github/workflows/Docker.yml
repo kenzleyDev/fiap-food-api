@@ -33,7 +33,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: fiapfastfood/fiap-api:${{ github.ref }}
+        tags: fiapfastfood/fiap-api:${{ github.event.pull_request.number }}
 
                 
           
