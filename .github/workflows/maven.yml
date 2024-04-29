@@ -39,7 +39,7 @@ jobs:
       run: docker-compose up -d
 
     - name: Sonar Scan
-      run: mvn clean verify Dspring.profiles.active=deploy --file pom.xml sonar:sonar -Dsonar.projectKey=kenzleyDev_fiap-food-api -Dsonar.organization=kenzleydev
+      run: mvn clean verify sonar:sonar -Dspring.profiles.active=deploy -Dsonar.projectKey=kenzleyDev_fiap-food-api -Dsonar.organization=kenzleydev -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
