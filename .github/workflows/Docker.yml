@@ -19,4 +19,15 @@ jobs:
       with:
         username: fiapfastfood
         password: ${{ secrets.PASSWORD_DOCKER_HUB }}
-            
+
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v5.3.0
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: fiapfastfood/fiap-food-api:${{github.ref_name}}
+
+                
+          
