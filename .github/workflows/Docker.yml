@@ -32,7 +32,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: fiapfastfood/fiap-food-api:${{github.ref_name}}
+        tags: fiapfastfood/fiap-api:${{ github.ref }}
 
                 
           
