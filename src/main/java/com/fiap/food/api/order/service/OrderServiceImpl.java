@@ -49,14 +49,12 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<OrderEntity> findAll() {
-        List<OrderEntity> orders = orderRepository.findOrdersOrderedByStatusAndDateTimeOrder();
-        return orders;
+        return orderRepository.findOrdersOrderedByStatusAndDateTimeOrder();
     }
 
     @Override
     public OrderEntity findByConfirmationCode(String confirmationCode) throws NotFoundException {
-        var orderEntity = orderRepository.findByConfirmationCode(confirmationCode).orElseThrow(() -> new NotFoundException("Order not found"));
-        return orderEntity;
+        return orderRepository.findByConfirmationCode(confirmationCode).orElseThrow(() -> new NotFoundException("Order not found"));
     }
 
     @Override
@@ -118,7 +116,7 @@ public class OrderServiceImpl implements OrderService{
         String statusPayment = paymentClientService.processarPagamento(paymentRequestClientDTO);
 
         payment.setStatusPayment(StatusPaymentEnum.fromString(statusPayment));
-        payment.setAmount(new BigDecimal(totalSumOrderAmount));
+        payment.setAmount(BigDecimal.valueOf(totalSumOrderAmount));
         payment.setOrder(order);
         return payment;
     }
