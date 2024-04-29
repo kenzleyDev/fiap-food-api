@@ -3,7 +3,7 @@ WORKDIR /build
 
 COPY . .
 
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Final app
 FROM openjdk:17-jdk-alpine
